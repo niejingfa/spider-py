@@ -1,4 +1,5 @@
 import codecs
+import xlwt #导入模块
 from requests_html import HTMLSession
 from requests_file import FileAdapter
 
@@ -7,7 +8,7 @@ file_path = 'writable/food/compound_spices.html'
 # file 代理的路径
 pwd = 'Users/niejingfa/Documents/spider/'
 # 输出的文件
-output = 'output/food/compound_spices.csv'
+output = 'output/food/compound_spices.xlsx'
 
 def parsing_html(url):
   session = HTMLSession()
@@ -16,13 +17,16 @@ def parsing_html(url):
   sel = 'table.layer_big > tr > td'
   items = r.html.find(sel)
 
-  f = codecs.open(output, 'w', encoding='utf-8')
-  f.write('中文名称,英文名称\n')
-  for i in range(int(len(items) / 7)):
-    f.write(','.join([items[i * 7 + 1].text, items[i * 7 + 2].text]))
-    f.write('\n')
+  wb = xlwt.Workbook()
+  ws = wb.add_sheet('sheet1')
+  ws.write(0, 0, '中文名称')
+  ws.write(0, 1, '英文名称')
 
-  f.close()
+  for i in range(int(len(items) / 7)):
+    ws.write(i + 1, 0, items[i * 7 + 1].text)
+    ws.write(i + 1, 1, items[i * 7 + 2].text)
+
+  wb.save(output)
 
 if __name__ == '__main__':
   url = 'file:///' + pwd + file_path

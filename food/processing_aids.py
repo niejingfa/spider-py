@@ -1,4 +1,5 @@
 import codecs
+import xlwt #导入模块
 from requests_html import HTMLSession
 from requests_file import FileAdapter
 
@@ -7,7 +8,7 @@ file_path = 'writable/food/processing_aids.html'
 # file 代理的路径
 pwd = 'Users/niejingfa/Documents/spider/'
 # 输出的文件
-output = 'output/food/processing_aids.csv'
+output = 'output/food/processing_aids.xlsx'
 
 def parsing_html(url):
   session = HTMLSession()
@@ -16,18 +17,19 @@ def parsing_html(url):
   sel = 'table#scroll_bar >tr.py2 > td'
   items = r.html.find(sel)
 
-  f = codecs.open(output, 'w', encoding='utf-8')
-  f.write('中文名称,英文名称,功能,使用范围\n')
+  wb = xlwt.Workbook()
+  ws = wb.add_sheet('sheet1')
+  ws.write(0, 0, '中文名称')
+  ws.write(0, 1, '英文名称')
+  ws.write(0, 2, '功能')
+  ws.write(0, 3, '使用范围')
   for i in range(int(len(items) / 4)):
-    item_group = items[i * 4 : (i + 1) * 4]
-    text_arr = []
-    for _item in item_group:
-      text_arr.append(_item.text)
+    ws.write(i + 1, 0, items[i * 4].text)
+    ws.write(i + 1, 1, items[i * 4 + 1].text)
+    ws.write(i + 1, 2, items[i * 4 + 2].text)
+    ws.write(i + 1, 3, items[i * 4 + 3].text)
 
-    f.write(','.join(text_arr))
-    f.write('\n')
-
-  f.close()
+  wb.save(output)
 
 if __name__ == '__main__':
   url = 'file:///' + pwd + file_path

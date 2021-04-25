@@ -1,4 +1,5 @@
 import time
+import xlwt #导入模块
 import codecs
 from requests_html import HTMLSession
 from requests_file import FileAdapter
@@ -8,7 +9,7 @@ file_path = 'writable/food/additive.html'
 # file 代理的路径
 pwd = 'Users/niejingfa/Documents/spider/'
 # 输出的文件
-output = 'output/food/additive.csv'
+output = 'output/food/additive.xlsx'
 
 def parsing_html(url):
   session = HTMLSession()
@@ -20,19 +21,29 @@ def parsing_html(url):
   sel2 = 'table#scroll_bar >tr.py2 > td'
   arr = r.html.find(sel2)
 
-  f = codecs.open(output, 'w', encoding='utf-8')
-  f.write('中文名称,英文名称,功能,食品名称,最大使用量(g/kg)\n')
+  wb = xlwt.Workbook()
+  ws = wb.add_sheet('sheet1')
+  ws.write(0, 0, '中文名称')
+  ws.write(0, 1, '英文名称')
+  ws.write(0, 2, '功能')
+  ws.write(0, 3, '食品名称')
+  ws.write(0, 4, '最大使用量(g/kg)')
+  count = 1
   for i, item in enumerate(items):
     _href = item.attrs['href']
     item_arr = get_html(_href)
 
-    for item_a in item_arr:
-      f.write(','.join([item.text, arr[i * 5 + 1].text, arr[i * 5 + 4].text, item_a['name'], item_a['max']]))
-      f.write('\n')
+    for j in range(len(item_arr)):
+      ws.write(count, 0, item.text)
+      ws.write(count, 1, arr[i * 5 + 1].text)
+      ws.write(count, 2, arr[i * 5 + 4].text)
+      ws.write(count, 3, item_arr[j]['name'])
+      ws.write(count, 4, item_arr[j]['max'])
+      count += 1
 
     time.sleep(1)
 
-  f.close()
+  wb.save(output)
 
 def get_html(url):
   session = HTMLSession()
