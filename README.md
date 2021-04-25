@@ -2,13 +2,17 @@
 
 ## 环境
 - 语言：`python(3.9)`
-- 解析器： `requests-html
+- 解析器包： `requests-html
 
   安装命令：`pip install requests-html`
 
-- 本地网页代理： `requests_file`
+- 本地网页代理包： `requests_file`
 
   安装命令：`pip install requests_file`
+
+- 导出 `Excel` 包： `xlwt`
+
+  安装命令：`pip install xlwt`
 
 ## 目录
 #### 1. writable 暂时保存网页的文件夹
