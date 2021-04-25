@@ -1,16 +1,21 @@
 # spider
 
 ## 环境
-- 语言：`python`(3.9)
-- 解析器： `requests-html`(pip install requests-html)
-- 本地网页代理： `requests_file`(pip install requests_file)
+- 语言：`python(3.9)`
+- 解析器： `requests-html
+
+  安装命令：`pip install requests-html`
+
+- 本地网页代理： `requests_file`
+
+  安装命令：`pip install requests_file`
 
 ## 目录
-- writable 暂时保存网页的文件夹
-- output 输出 `.csv` 的文件夹
+#### 1. writable 暂时保存网页的文件夹
+#### 2. output 输出 `.csv` 的文件夹
 
-
-一些网页相关的爬虫脚本
+---
+## 一些网页相关的爬虫脚本
 
 - 食品添加剂：http://db.foodmate.net/2760-2014//index.php?m=additives&a=index。（中文名称、英文名称、功能、食品名称、最大使用量(g/kg)）
 
