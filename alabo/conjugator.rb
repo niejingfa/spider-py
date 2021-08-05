@@ -186,6 +186,7 @@ arr.each_with_index do |i, index|
     rescue => e
       p "verbal_noun_fields( #{ i } ): #{ e.message }"
     end
+    next if Alabo.exists?(name: i)
     alabo = Alabo.create!(
       name: i,
       active_past: past_fields,
